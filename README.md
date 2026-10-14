@@ -5,17 +5,28 @@ kernel driver or file-system minifilter from a `.sys` path. It creates (or safel
 reuses) a demand-start driver service, prompts for UAC elevation when necessary,
 and reports native Windows errors with contextual troubleshooting hints.
 
-```powershell
-cargo build --release
+## Download
 
+Download the current prebuilt x86-64 Windows release:
+
+**[drvload v0.1.0 for Windows x86-64](https://github.com/jgajek/drvload/releases/download/v0.1.0/drvload-v0.1.0-windows-x86_64.zip)**
+
+Extract the ZIP and run `drvload.exe` from PowerShell or Command Prompt. The
+tool prompts for UAC elevation automatically when a load operation requires it.
+All published versions and release notes are available on the
+[Releases page](https://github.com/jgajek/drvload/releases).
+
+## Usage
+
+```powershell
 # Kernel driver
-.\target\release\drvload.exe C:\drivers\example.sys
+.\drvload.exe C:\drivers\example.sys
 
 # Minifilter (the altitude implies --type minifilter)
-.\target\release\drvload.exe --altitude 370030 C:\drivers\example-filter.sys
+.\drvload.exe --altitude 370030 C:\drivers\example-filter.sys
 
 # Explicit names and load-order group
-.\target\release\drvload.exe --type minifilter `
+.\drvload.exe --type minifilter `
   --name ExampleFilter `
   --instance "ExampleFilter Default Instance" `
   --altitude 370030.5 `
@@ -24,6 +35,18 @@ cargo build --release
 ```
 
 Run `drvload --help` for the complete interface.
+
+## Build from source
+
+Install the stable Rust toolchain with the MSVC target and build on Windows:
+
+```powershell
+cargo build --release
+.\target\release\drvload.exe --version
+```
+
+The project has no third-party Rust dependencies. Other Windows architectures
+can be built by selecting the corresponding Rust MSVC target.
 
 ## Important Windows requirements
 
